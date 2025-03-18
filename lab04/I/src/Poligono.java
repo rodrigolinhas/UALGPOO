@@ -8,13 +8,16 @@ public class Poligono extends FiguraGeometrica {
         this.vertices = vertices;
     }
 
+    //REVIEW
     private void check(ArrayList<Ponto> vertices) {
-        if (vertices.size() < 3) {
+        if (vertices.size() == 3) {Triangulo t = new Triangulo(vertices.get(0), vertices.get(1), vertices.get(2));
+        } else if (vertices.size() == 4) {
+            Rectangulo r = new Rectangulo(vertices.get(0), vertices.get(1), vertices.get(2), vertices.get(3));
+        }else
             System.out.println("Poligono:vi");
-            System.exit(0);
-        }
     }
 
+    //REVIEW
     @Override
     public String toString() {
         return "Poligono{}";
