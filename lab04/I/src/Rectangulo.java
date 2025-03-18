@@ -5,7 +5,7 @@
  *  @inv        Os 4 pontos devem ser distintos, pertencentes ao 1o quadrante
  *  @inv        e validos para a criação de um retangulo.
  */
-public class Rectangulo extends FiguraGeometrica {
+public class Rectangulo extends Poligono {
     private Ponto p1, p2, p3, p4;
     private static final double EPSILON = 1e-9;
 

@@ -1,6 +1,7 @@
 
-public class Triangulo extends FiguraGeometrica {
+public class Triangulo extends Poligono {
     private Ponto p1, p2, p3;
+
     public Triangulo(Ponto p1, Ponto p2, Ponto p3) {
         check(p1,p2,p3);
         this.p1 = p1;
