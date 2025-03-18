@@ -56,6 +56,15 @@ public class Segmento {
         return Math.toDegrees(Math.atan(Math.abs((mRet1 - mRet2) / (1 + mRet1 * mRet2))));
     }
 
+
+    private void check(Ponto a, Ponto b){
+        if (a.equals(b)) {
+            System.out.println("Segmento:vi");
+            System.exit(0);
+        }
+    }
+
+
     //https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
     // Given three collinear points p, q, r, the function checks if
     // point q lies on line segment 'pr'
@@ -74,7 +83,7 @@ public class Segmento {
      *   @return true se intersetam false cc
      *   @see https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/ (metodo referido)
      */
-    public boolean doIntersect(Segmento that) {
+    /*public boolean doIntersect(Segmento that) {
         Ponto p1 = this.a;
         Ponto q1 = this.b;
         Ponto p2 = that.getA();
@@ -105,7 +114,7 @@ public class Segmento {
         if (o4 == 0  && !control) return true;
 
         return false;
-    }
+    }*/
 
     /*   Metodo complementar ao doInterset
      *   @param 3 Pontos distintos
@@ -115,7 +124,7 @@ public class Segmento {
      *   @see https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/ (metodos usados)
      *   @see https://www.geeksforgeeks.org/orientation-3-ordered-points/               (mais detalhes da formula)
      */
-    private int orientation(Ponto p, Ponto q, Ponto r)
+    /*private int orientation(Ponto p, Ponto q, Ponto r)
     {
         // See https://www.geeksforgeeks.org/orientation-3-ordered-points/
         // for details of below formula.
@@ -125,17 +134,6 @@ public class Segmento {
         if (Math.abs(val) < EPSILON) return 0; // collinear
         else if (val > 0) return 1;
         else return -1;
-    }
+    }*/
 
-    /* Verifica se os pontos são distintos.
-     * @param   a Ponto inicial
-     * @param   b Ponto final
-     * @see     https://tutoria.ualg.pt/2024/mod/resource/view.php?id=107599 (refer o check)
-     */
-    private void check(Ponto a, Ponto b){
-        if (a.equals(b)) {
-        System.out.println("Segmento:vi");
-        System.exit(0);
-        }
-    }
 }
