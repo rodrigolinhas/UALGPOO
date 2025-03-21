@@ -1,25 +1,68 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Poligono extends FiguraGeometrica {
-    ArrayList<Ponto> vertices;
+    protected List<Ponto> vertices;
 
-    public Poligono(ArrayList<Ponto> vertices) {
+    public Poligono(String pontosAsString) {
+        String [] parts = pontosAsString.split(" ");
+        int numVertices = Integer.parseInt(parts[0]);
+        this.vertices = new ArrayList<>();
+
+        for (int i = 0; i < numVertices; i++){
+            int x = Integer.parseInt(parts[i * 2 + 1]);
+            int y = Integer.parseInt(parts[i * 2 + 2]);
+            this.vertices.add(new Ponto(x, y));
+        }
+
         check(vertices);
-        this.vertices = vertices;
     }
 
-    //REVIEW
-    private void check(ArrayList<Ponto> vertices) {
-        if (vertices.size() == 3) {Triangulo t = new Triangulo(vertices.get(0), vertices.get(1), vertices.get(2));
-        } else if (vertices.size() == 4) {
-            Rectangulo r = new Rectangulo(vertices.get(0), vertices.get(1), vertices.get(2), vertices.get(3));
-        }else
+    protected static void check(List<Ponto> vertices){
+        if (vertices.size() < 3){
             System.out.println("Poligono:vi");
+            System.exit(0);
+        }
+
+        //verifica se 3 pontos consecutivos sao colineares
+        for (int i = 0; i < vertices.size(); i++){
+            Ponto p = vertices.get(i);
+            Ponto q = vertices.get((i + 1) % vertices.size());
+            Ponto r = vertices.get((i + 2) % vertices.size());
+
+            Segmento temp = new Segmento(p, q);
+            int orient = temp.orient(p, q, r);
+
+            if (orient == 0){
+                System.out.println("Poligono:vi");
+                System.exit(0);
+            }
+        }
+
+        //verifica interseções entre arestas
+        for (int i = 0; i < vertices.size(); i++){
+            Segmento aresta1 = new Segmento(vertices.get(i), vertices.get((i + 1) % vertices.size()));
+            for (int j = i + 1; j < vertices.size(); j++){
+                Segmento aresta2 = new Segmento(vertices.get(j), vertices.get((j + 1) % vertices.size()));
+
+                if (aresta1.intersect_segment(aresta2)){
+                    System.out.println("Poligono:vi");
+                    System.exit(0);
+                }
+            }
+        }
     }
 
-    //REVIEW
     @Override
     public String toString() {
-        return "Poligono{}";
+        StringBuilder sb = new StringBuilder("Poligono de " + vertices.size() + " vertices: [");
+        for (int i = 0; i < vertices.size(); i++) {
+            sb.append(vertices.get(i));
+            if (i < vertices.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }

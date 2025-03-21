@@ -1,115 +1,160 @@
 import java.util.Objects;
 
-/*  Classe Ponto representa um ponto em coordenadas polares com as verificações necessárias.
- *  @author     Rodrigo Linhas a83933
- *  @version    07/03/2025
- *  @inv        Em coordenadas polares: r => 0, 0 <= teta <= 90 graus.
- *  @inv        Em coordenadas cartesianas: x>=0 e y>=0 (pertencem ao 1o quadrante)
+import static java.lang.Math.*;
+
+/*
+ * Representa um ponto em duas dimensões.
+ * @author Paulo Rodrigues, a83929.
+ * @version 2025/02/25.
+ * @inv Os pontos pertencem ao primeiro quadrante, ou seja, em linguagem matemática será: x >= 0 && y >= 0 (para coordenadas cartesianas)
+ * e 0 <ang< 90 && 0 <=r<= 10 (para coordenadas polares).
  */
-class Ponto {
-    private double r, teta;
-    private static final double EPSILON = 1e-9;
+public class Ponto {
+    private double r;
+    private double ang;
+    private static final double EPSILON = 1e-9; // Tolerância para erros de precisão
 
-    /* Construtor principal
-     * @param double raio e teta
+    /*
+     * Construtor para coordenadas polares.
+     * @param r -> Distância da origem até ao ponto.
+     * @param ang -> Ângulo feito entre o eixo X e o ponto.
      */
-    public Ponto(double r, double teta) {
-        //verificacao
-        check(r, teta);
-        this.r = r;
-        this.teta = teta;
-    }
-
-    /* Construtor que converte coordenadas cartesianas para polares
-     * @param int x e y
-     * @see https://www.omnicalculator.com/pt/matematica/calculadora-coordenadas-polares (formulas necessarias)
-     */
-    public Ponto(int x, int y){
-        //verificacao
-        check(x, y);
-        this.r = Math.sqrt((x*x)+(y*y));
-        this.teta = Math.toDegrees(Math.atan2(y, x));
+    public Ponto(double r, double ang)
+    {
+        check(r, ang);
+        this.r = r; //se tiver que usar isto provalvemente vou ter que fazer um toRadians
+        this.ang = ang;
     }
 
     /*
-     * Método que verifica se dois pontos são iguais,
-     * e caso sejam, verifica se os pontos são coincidentes.
-     * @param Objeto o a ser comparado com o Ponto.
-     * @return true caso sejam iguais, falso caso contrário.
+     * Construtor para um vetor visto que um vetor é um ponto.
+     * @param a -> Ponto a do vetor.
+     * @param b -> Ponto b do vetor.
+     */
+    public Ponto(Ponto a, Ponto b)
+    {
+        this.r = sqrt((pow(b.getXDouble() - a.getXDouble(), 2) + pow(b.getYDouble() - a.getYDouble(), 2)));
+        this.ang = toDegrees(atan2(b.getYDouble() - a.getYDouble(), b.getXDouble() - a.getXDouble()));
+    }
+
+    /*
+     * Construtor para coordenadas cartesianas que faz a conversão para polares.
+     * @param x -> Coordenada X do ponto.
+     * @param y -> Coordenada Y do ponto.
+     */
+    public Ponto(int x, int y)
+    {
+        check(x, y);
+        this.r = sqrt((pow(x, 2) + pow(y, 2)));
+        this.ang = toDegrees(atan2(y, x));
+    }
+
+    /*
+     * Verifica se o ponto dado em coordenadas polares nao viola a @inv
+     * @param r -> Distância da origem até ao ponto.
+     * @param ang -> Ângulo feito entre o eixo X e o ponto.
+     */
+    private void check(double r, double ang)
+    {
+        if (r > 10 || r < 0 || ang < 0 || ang > 90)
+        {
+            System.out.print("iv");
+            System.exit(0);
+        }
+    }
+
+    /*
+     * Verifica se o ponto dado em coordenadas cartesianas nao viola a @inv
+     * @param x -> Coordenada X do ponto.
+     * @param y -> Coordenada Y do ponto.
+     */
+    private void check(int x, int y)
+    {
+        if (x < 0 || y < 0)
+        {
+            System.out.println("Ponto:vi");
+            System.exit(0);
+        }
+    }
+
+    /*
+     * Getter usado para uso do r noutras classes.
+     * @return r -> Distância da origem até ao ponto.
+     */
+    public double getR(){ return this.r; }
+
+    /*
+     * Getter usado para uso do ang noutras classes.
+     * @return ang -> Ângulo feito entre o eixo X e o ponto.
+     */
+    public double getAng(){ return this.ang; }
+
+    /*
+     * Getter usado para uso do X das coordenadas cartesianas inteiras noutras classes ou mesmo nesta na parte do toString.
+     * @return X -> Coordenada inteira X do ponto.
+     */
+    public int getX(){ return (int) round(this.r * cos(toRadians(this.ang))); }
+
+    /*
+     * Getter usado para uso do Y das coordenadas cartesianas inteiras noutras classes ou mesmo nesta na parte do toString.
+     * @return Y -> Coordenada inteira Y do ponto.
+     */
+    public int getY() { return (int) round(this.r * sin(toRadians(this.ang))); }
+
+    /*
+     * Getter usado para uso do X das coordenadas cartesianas, mas neste caso em double para fazer cálculos intermédios.
+     * Evita fazer este calculo sempre pois sempre que necessário basta chamar este método.
+     * @return X -> Coordenada decimal Y do ponto.
+     */
+    public double getXDouble() {return r * cos(toRadians(ang));}
+
+    /*
+     * Getter usado para uso do Y das coordenadas cartesianas, mas neste caso em double para fazer cálculos intermédios.
+     * Evita fazer este calculo sempre pois sempre que necessário basta chamar este método.
+     * @return Y -> Coordenada decimal Y do ponto.
+     */
+    public double getYDouble() {return r * sin(toRadians(ang));}
+
+    /*
+     * Calcula a distância entre dois pontos.
+     * @param Ponto b -> Ponto para o qual se vai calcular a distância entre o ponto da classe e o recebido.
+     * @return distancia -> distância entre os dois pontos.
+     */
+    public double dist(Ponto b)
+    {
+        double res = 0;
+        res = sqrt(pow(this.r, 2) + pow(b.r, 2) - (2 * this.r * b.r * cos(toRadians((b.ang) - (this.ang)))));
+        return res;
+    }
+
+    /*
+     * Dá o ponto no formato (x,y).
+     * @return "(" + getX() + "," + getY() + ")" -> String que contem o ponto na forma (x,y).
+     */
+    @Override
+    public String toString() {
+        return "(" + getX() + "," + getY() + ")";
+    }
+
+    /*
+     * Método que verifica se dois pontos são iguais, verifica se são ambos da class Ponto e caso sejam, verifica se os pontos são coincidentes.
+     * @param o -> objeto a ser comparado com o Ponto da class.
+     * @return um booleano, true caso sejam iguais, falso caso contrário.
      */
     @Override
     public boolean equals(Object o)
     {
         if (o == null || getClass() != o.getClass()) return false;
         Ponto ponto = (Ponto) o;
-        return Math.abs(this.r - ponto.getr()) < EPSILON && Math.abs(this.teta - ponto.getteta()) < EPSILON;
+        return abs(this.r - ponto.getR()) < EPSILON && abs(this.ang - ponto.getAng()) < EPSILON;
     }
 
-    /* Método complementar ao equals, necessario para
-     * evitar as colisões entre objetos (AED).
-     * @return o codigo hash para o r e o teta
+    /*
+     * Método criado ao gerar o equals e nao csg passar no mooshak se não deixar aqui, perguntar ao prof pq
      */
     @Override
-    public int hashCode() {return Objects.hash(r, teta);}
-
-    /*  Metodo toString
-     *  @return a string no seuinte formato: (x,y)
-     */
-    @Override
-    public String toString()    {return "(" + getX() + "," + getY() + ")";}
-
-    /* Get do raio, nessecario para outras classes acederem esta informacao
-     *  @return raio
-     *  @see https://tutoria.ualg.pt/2024/mod/resource/view.php?id=107599 (refere os gets e checks)
-     */
-    public double getr()    {return this.r;}
-
-    /*  Get do X, nessecario para outras classes acederem esta informacao
-     *  @return x apos ter convertido de polares para cartesianas
-     *  @see https://wwwp.fc.unesp.br/~mauri/Down/Polares.pdf (formulas usada)
-     */
-    public int getX()       {return (int) Math.round(this.r*Math.cos(Math.toRadians(this.teta)));}
-
-    /*  Get do teta, nesecario para outras classes acederem esta informacao
-     *  @return angulo teta
-     *  @see https://tutoria.ualg.pt/2024/mod/resource/view.php?id=107599 (refere os gets e checks)
-     */
-    public double getteta() {return this.teta;}
-
-    /*  Get do Y, nessecario para outras classes acederem esta informacao
-     *  @return y apos ter convertido de polares para cartesianas
-     *  @see https://wwwp.fc.unesp.br/~mauri/Down/Polares.pdf (formulas usada)
-     */
-    public int getY()       {return (int) Math.round(this.r*Math.sin(Math.toRadians(this.teta)));}
-
-    /* Calcula distância de dois pontos.
-     * @param Outro ponto
-     * @return Distância entre os pontos
-     */
-    /*public double dist (Ponto that) {
-        return Math.sqrt(this.r*this.r + that.r*that.r
-                - 2*this.r*that.r*Math.cos(Math.toRadians(that.teta)-Math.toRadians(this.teta)));
-    }*/
-
-    /* Verifica se as coordenadas cartesianas nao violam a @inv.
-     * @param Coordenada x
-     * @param Coordenada y
-     */
-    private void check(int x, int y){
-        if (x<0||y<0) {
-            System.out.println("Ponto:vi");
-            System.exit(0);
-        }
-    }
-
-    /* Verifica se as coordenadas polares nao violam a @inv.
-     * @param Raio r
-     * @param Angulo teta
-     */
-    private void check(double r, double teta){
-        if (r>10 || teta<0 || teta>90 ) {
-            System.out.println("Ponto:vi");
-            System.exit(0);
-        }
+    public int hashCode()
+    {
+        return Objects.hash(getR(), getAng());
     }
 }

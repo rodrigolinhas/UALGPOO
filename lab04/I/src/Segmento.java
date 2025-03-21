@@ -1,22 +1,23 @@
-/* Classe Segmento representa um segmento de reta entre dois pontos, verifica o angulo que forma
- *  com outro segmento e se intersetam.
- *  @author     Rodrigo Linhas a83933
- *  @version    06/03/2025
- *  @inv        Os pontos a e b devem ser distintos e pertencentes ao 1o quadrante.
+import static java.lang.Math.*;
+/*
+ * Representa um segmento de reta em duas dimensões.
+ * @author Paulo Rodrigues, a83929.
+ * @version 2025/03/5.
+ * @inv Os pontos nao podem ser sobrepostos (iguais), ou seja, xa != xb && ya != yb.
  */
-import java.lang.Math;
+public class Segmento
+{
+    private Ponto a; //ponto 1
+    private Ponto b; //ponto 2
+    private static final double EPSILON = 1e-9; // Tolerância para erros de precisão
 
-public class Segmento {
-    private Ponto a;
-    private Ponto b;
-    private static final double EPSILON = 1e-9;
-
-    /* Construtor da classe Segmento
-     * @param   a Ponto inicial do segmento
-     * @param   b Ponto final do segmento
+    /*
+     * Construtor para o segmento de reta.
+     * @param a -> Ponto no primeiro quadrante.
+     * @param b -> Outro ponto no primeiro quadrante.
      */
-    public Segmento(Ponto a, Ponto b){
-        check(a,b);
+    public Segmento(Ponto a, Ponto b) {
+        check(a, b);
         this.a = a;
         this.b = b;
     }
@@ -33,107 +34,88 @@ public class Segmento {
      */
     public Ponto getB() {return b;}
 
-    /* Verifica o angulo formado entre 2 segmnetos de reta.
-     * @param   s que é outro Segmento para calcular o angulo
-     * @return  o angulo formado em graus
-     * @see     https://mundoeducacao.uol.com.br/matematica/angulo-formado-entre-duas-retas.htm
+    /*
+     * Verifica se os dois pontos dados não violam a @inv
+     * @param a -> Ponto no primeiro quadrante.
+     * @param b -> Outro ponto no primeiro quadrante.
      */
-    public double anginterseta(Segmento s) {
-        double xa = this.a.getr() * Math.cos(Math.toRadians(this.a.getteta()));
-        double ya = this.a.getr() * Math.sin(Math.toRadians(this.a.getteta()));
-        double xb = this.b.getr() * Math.cos(Math.toRadians(this.b.getteta()));
-        double yb = this.b.getr() * Math.sin(Math.toRadians(this.b.getteta()));
-        double xa2 = s.a.getr() * Math.cos(Math.toRadians(s.a.getteta()));
-        double ya2 = s.a.getr() * Math.sin(Math.toRadians(s.a.getteta()));
-        double xb2 = s.b.getr() * Math.cos(Math.toRadians(s.b.getteta()));
-        double yb2 = s.b.getr() * Math.sin(Math.toRadians(s.b.getteta()));
-        // Coeficientes da equação da reta y=m*x
-        double mRet1 = (yb - ya) / (xb - xa);
-        double mRet2 = (yb2 - ya2) / (xb2 - xa2);
-        //Angulo -> arctan |ms-mr/1+ms*mr|
-        //toDegrees por causa que os angulos calculados são em rad
-
-        return Math.toDegrees(Math.atan(Math.abs((mRet1 - mRet2) / (1 + mRet1 * mRet2))));
-    }
-
-
-    private void check(Ponto a, Ponto b){
-        if (a.equals(b)) {
+    private void check(Ponto a, Ponto b) {
+        if (a.equals(b)){
             System.out.println("Segmento:vi");
             System.exit(0);
         }
     }
 
-
-    //https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
-    // Given three collinear points p, q, r, the function checks if
-    // point q lies on line segment 'pr'
-    /*public boolean onSegment(Ponto p, Ponto q, Ponto r) {
-        if (orientation(p, q, r) != 0)  return false;
-        //Verifica se q está estritamente entre p e r (excluindo extremos)
-        boolean xBetween = (q.getX() < Math.max(p.getX(), r.getX())) &&
-                (q.getX() > Math.min(p.getX(), r.getX()));
-        boolean yBetween = (q.getY() < Math.max(p.getY(), r.getY())) &&
-                (q.getY() > Math.min(p.getY(), r.getY()));
-        return xBetween && yBetween;
-    }*/
-
-    /*   Metodo que verifica se 2 segmentos de reta intersetam
-     *   @param Segemento
-     *   @return true se intersetam false cc
-     *   @see https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/ (metodo referido)
+    /*
+     * Verifica se existe alguma interseção entre o segmento de reta e um circúlo.
+     * @param c -> Circulo a verificar se interseta ou não o segmento de reta.
+     * @return um boolean que indica que existe ou nao interseção, caso exista retorna true, caso contrario retorna false.
      */
-    /*public boolean doIntersect(Segmento that) {
-        Ponto p1 = this.a;
-        Ponto q1 = this.b;
-        Ponto p2 = that.getA();
-        Ponto q2 = that.getB();
+    public boolean intersect_circle(Circulo c) {
+        //conversão para coordenadas cartesianas
+        double xa = this.a.getR() * cos(this.a.getAng());
+        double ya = this.a.getR() * sin(this.a.getAng());
+        double xb = this.b.getR() * cos(this.b.getAng());
+        double yb = this.b.getR() * sin(this.b.getAng());
+        double xc = c.getCenter().getR() * cos(c.getCenter().getAng());
+        double yc = c.getCenter().getR() * sin(c.getCenter().getAng());
 
-        Ponto[] vertices = {p1,q1,p2,q2};
-        boolean control = false;
+        double mReta = (yb - ya) / (xb - xa);
+        double bReta = ya - (mReta * xa);
 
-        for (Ponto vertice: vertices){
-            if(vertice.dist(p1) < EPSILON ||  vertice.dist(p2) < EPSILON){
-                control = true;
-                break;
-            }
-        }
+        double A = 1 + pow(mReta, 2);
+        double B = (-2 * xc) + (2 * mReta * (bReta - yc));
+        double C = pow(xc, 2) + pow((bReta - yc), 2) - pow(c.getRaio(), 2);
 
-        int o1 = orientation(p1, q1, p2);
-        int o2 = orientation(p1, q1, q2);
-        int o3 = orientation(p2, q2, p1);
-        int o4 = orientation(p2, q2, q1);
+        double discriminant = pow(B, 2) - (4 * A * C);
+        return discriminant >= 0; //se for >= retorna true, cc, retorna false
+    }
 
-        // General case
-        if (o1 * o2 < 0 && o3 * o4 < 0)   return true;
+    /*
+     * Calcula a orientação de três pontos (p, q, r) em coordenadas cartesianas. A orietançao é calculada atravês do produto vetorial
+     * entre os vetores PQ e QR.
+     * @param p -> Primeiro ponto
+     * @param q -> Segunda ponto.
+     * @param r -> Terceiro ponto.
+     * @return um inteiro, neste caso, 0, 1 ou -1. Sendo que o 0 indica que os pontos são colineares; 1 indica que a orientação é no sentido
+     * horário então retorna positivo; -1 para indicar que o sentido dos pontos é o sentido anti horário então retorna negativo. O retorno ser
+     * positivo ou negativo é importante para a conta feita na verificação geral de intersecção.
+     * @see https://www.deepseek.com/ onde usei o prompt "como posso verificar que um segmento de reta dado por dois pontos
+     * interseta um retângulo dado por 4 pontos em coordenadas cartesianas. Utiliza a orientação de pontos.", para saber como
+     * fazer os códigos para a intersecção de um segmento de reta e um retângulo.
+     */
+    public int orient(Ponto p, Ponto q, Ponto r) {
+        double orient = (q.getYDouble() - p.getYDouble()) *
+                (r.getXDouble() - q.getXDouble()) - (q.getXDouble() - p.getXDouble())
+                    * (r.getYDouble() - q.getYDouble());
 
-        // Special Cases
-        if (o1 == 0  && !control) return true;
-        if (o2 == 0  && !control) return true;
-        if (o3 == 0  && !control) return true;
-        if (o4 == 0  && !control) return true;
+        if (abs(orient) < EPSILON) return 0; //são colineares
+        else if(orient > 0) return 1; //positivo
+        else return -1; //negativo
+    }
 
+    /*
+     * Método responsável por verificar se existe intersecção entre dois segmentos de reta, o segmento de reta da classe e o recebido por parâmetro.
+     * Utiliza os os cálculos da orientação de três pontos para determinar se existe ou nao intersecção (excluindo extremidades como tocar
+     * apenas em vertices ou então o segmento de reta terminar exatamente na aresta do retângulo (nao cortar a aresta)).
+     * @param segmento -> segmento a verificar se existe interseção com o segmento da class.
+     * @return um booleano que indica se existe ou nao intersecção entre os segmentos de reta, true caso exista, false caso contrário.
+     * @see usei varias vezes o site https://www.geogebra.org/calculator para verificar geométricamente quando era considerado intersecção.
+     */
+    public boolean intersect_segment(Segmento segmento) {
+        Ponto A = this.a;
+        Ponto B = this.b;
+        Ponto C = segmento.getA();
+        Ponto D = segmento.getB();
+
+        int orient1 = orient(A, B, C);
+        int orient2 = orient(A, B, D);
+        int orient3 = orient(C, D, A);
+        int orient4 = orient(C, D, B);
+
+        if (orient1 * orient2 < 0 && orient3 * orient4 < 0) return true;
+
+        //casos especiais: interseção em vértices (ignorar)
         return false;
-    }*/
-
-    /*   Metodo complementar ao doInterset
-     *   @param 3 Pontos distintos
-     *   @return 0 se forem coliniares
-     *   @return 1 se vai no sentido horário
-     *   @return -1 cc
-     *   @see https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/ (metodos usados)
-     *   @see https://www.geeksforgeeks.org/orientation-3-ordered-points/               (mais detalhes da formula)
-     */
-    /*private int orientation(Ponto p, Ponto q, Ponto r)
-    {
-        // See https://www.geeksforgeeks.org/orientation-3-ordered-points/
-        // for details of below formula.
-        double val = ((q.getY() - p.getY()) * (r.getX() - q.getX()) -
-                (q.getX() - p.getX()) * (r.getY() - q.getY()));
-
-        if (Math.abs(val) < EPSILON) return 0; // collinear
-        else if (val > 0) return 1;
-        else return -1;
-    }*/
-
+    }
 }
