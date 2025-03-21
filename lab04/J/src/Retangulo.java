@@ -84,6 +84,19 @@ public class Retangulo extends Poligono {
     }
 
     /*
+     * Metodo translação do retangulo
+     * @param dx translação do eixo x
+     * @param dy translação do eixo y
+     * @return novo retangulo com a translação aplicada
+     */
+    @Override
+    public FiguraGeometrica translacao(int dx, int dy) {
+        Poligono pTransladado = (Poligono) super.translacao(dx, dy);
+        return new Retangulo(pTransladado.verticesToString());
+    }
+
+
+    /*
      *  Metodo responsavel para verificar se o retangulo e o segmento dado
      *  de facto intersetam
      *  @param Segmento
@@ -120,4 +133,5 @@ public class Retangulo extends Poligono {
         }
         return false;
     }
+
 }

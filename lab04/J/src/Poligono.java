@@ -82,4 +82,35 @@ public class Poligono extends FiguraGeometrica {
         sb.append("]");
         return sb.toString();
     }
+
+    /*
+     * Metodo translação do poligono
+     * @param dx translação do eixo x
+     * @param dy translação do eixo y
+     * @return novo poligono com a translação aplicada
+     */
+    @Override
+    public FiguraGeometrica translacao(int dx, int dy) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(vertices.size()).append(" ");
+        for (Ponto p : vertices) {
+            int novoX = p.getX() + dx;
+            int novoY = p.getY() + dy;
+            sb.append(novoX).append(" ").append(novoY).append(" ");
+        }
+        return new Poligono(sb.toString());
+    }
+
+    /*
+     * Metodo complementar na transalção do poligono
+     * e suas especializações (triangulo e retangulo)
+     * @return String para o construtor das classes
+     */
+    protected String verticesToString() {
+        StringBuilder sb = new StringBuilder();
+        for (Ponto p : vertices) {
+            sb.append(p.getX()).append(" ").append(p.getY()).append(" ");
+        }
+        return sb.toString();
+    }
 }

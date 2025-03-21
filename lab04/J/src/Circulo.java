@@ -71,4 +71,18 @@ public class Circulo extends FiguraGeometrica {
     public String toString() {
         return "Circulo: " + centro + " " + (int)raio;
     }
+
+    /*
+     * Metodo translação do circulo
+     * @param dx translação do eixo x
+     * @param dy translação do eixo y
+     * @return novo circulo com a translação aplicada
+     */
+    @Override
+    public FiguraGeometrica translacao(int dx, int dy) {
+        int novoX = centro.getX() + dx;
+        int novoY = centro.getY() + dy;
+        Ponto novoCentro = new Ponto(novoX, novoY); // Lança Ponto:vi se inválido
+        return new Circulo(novoX + " " + novoY + " " + raio);
+    }
 }

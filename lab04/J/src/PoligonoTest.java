@@ -24,4 +24,20 @@ public class PoligonoTest {
             new Poligono("3 0 0 2 0 4 0");
         });
     }
+
+    // Teste para translaçao valida de um poligono
+    @Test
+    public void testPoligono_TranslacaoInvalida() {
+        Poligono p = new Poligono("4 1 2 5 6 8 7 12 14");
+        FiguraGeometrica translacao = p.translacao(-1,3);
+        assertEquals("Poligono:vi", translacao.toString());
+    }
+
+    // Teste para translaçao invalida de um poligono (coordenadas negativas)
+    @Test
+    public void testPoligono_TranslacaoValida() {
+        Poligono p = new Poligono("3 1 1 3 1 2 3");
+        FiguraGeometrica transladado = p.translacao(-2, -2);
+        assertEquals("Ponto:vi", transladado.toString());
+    }
 }

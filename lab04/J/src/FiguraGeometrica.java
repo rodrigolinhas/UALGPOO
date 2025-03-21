@@ -10,4 +10,12 @@ abstract class FiguraGeometrica {
      * Metodo toString que irá ser usado nas outras classes
      */
     abstract public String toString();
+
+    /*
+     * Metodo translação que irá ser usado nas outras classes
+     * @param dx translação do eixo x
+     * @param dy translação do eixo y
+     * @return novo objeto com a translação aplicada
+     */
+    abstract FiguraGeometrica translacao(int dx, int dy);
 }

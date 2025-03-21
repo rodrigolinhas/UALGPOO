@@ -11,29 +11,39 @@ public class Cliente {
     }
 
     public static void main(String[] args) throws Exception {
-            Scanner sc = new Scanner(System.in);
-            List<FiguraGeometrica> listfig = new ArrayList<FiguraGeometrica>();
-            Constructor<?> constructor;
-            Class<?> cl;
-            FiguraGeometrica f;
-            String s;
-            String[] aos;
-            while (sc.hasNextLine()) {
-                s = sc.nextLine();
-                if (s.isEmpty())
-                    break;
-                aos = s.split(" ", 2);
+        Scanner sc = new Scanner(System.in);
+        List<FiguraGeometrica> listfig = new ArrayList<>();
+        String s;
+
+        // Ler figura
+        if (sc.hasNextLine()) {
+            s = sc.nextLine();
+            if (!s.isEmpty()) {
+                String[] aos = s.split(" ", 2);
                 try {
-                    cl = Class.forName(capital(aos[0]));
-                    constructor = cl.getConstructor(String.class);
-                    f = (FiguraGeometrica) constructor.newInstance(aos[1]);
+                    Class<?> cl = Class.forName(capital(aos[0]));
+                    Constructor<?> constructor = cl.getConstructor(String.class);
+                    FiguraGeometrica f = (FiguraGeometrica) constructor.newInstance(aos[1]);
                     listfig.add(f);
-                } catch (ClassNotFoundException cnfe) {
-                    System.out.println("Não foi encontrada a classe: " +
-                            cnfe.getMessage());
-                } catch (Exception e)   {e.printStackTrace();}
+                } catch (Exception e) {
+                    System.out.println("Erro: " + e.getMessage());
+                }
             }
-            for (FiguraGeometrica fig : listfig) {System.out.println(fig);}
-            sc.close();
         }
+        // Ler deslocamento dx e dy
+        if (sc.hasNextLine()) {
+            s = sc.nextLine();
+            String[] deslocamento = s.split(" ");
+            if (deslocamento.length == 2) {
+                int dx = Integer.parseInt(deslocamento[0]);
+                int dy = Integer.parseInt(deslocamento[1]);
+                // Aplicar translação
+                if (!listfig.isEmpty()) {
+                    FiguraGeometrica figTransladada = listfig.get(0).translacao(dx, dy);
+                    System.out.println(figTransladada);
+                }
+            }
+        }
+        sc.close();
+    }
 }

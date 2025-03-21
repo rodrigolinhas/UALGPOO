@@ -33,4 +33,20 @@ public class RetanguloTests {
             new Retangulo("0 0 0 3 4 3 4 0");
         });
     }
+
+    // Teste para translaçao valida de um retangulo
+    @Test
+    public void testRetangulo_TranslacaoValida() {
+        Retangulo r = new Retangulo("2 2 2 4 4 4 4 2");
+        FiguraGeometrica translacao = r.translacao(1, 1);
+        assertEquals("Retangulo: [(3,3), (3,5), (5,5), (5,3)]", translacao.toString());
+    }
+
+    // Teste para translaçao invalida de um retangulo (coordenadas negativas)
+    @Test
+    public void testRetangulo_TranslacaoInvalidaForaQuadrante() {
+        Retangulo r = new Retangulo("1 1 1 3 3 3 3 1");
+        FiguraGeometrica transladado = r.translacao(-2, -2);
+        assertEquals("Ponto:vi", transladado.toString());
+    }
 }
