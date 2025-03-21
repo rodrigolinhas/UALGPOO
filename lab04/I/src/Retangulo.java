@@ -8,18 +8,17 @@ import java.util.List;
  *  @inv e validos para a criação de um retangulo.
  */
 
-public class Rectangulo extends Poligono {
+public class Retangulo extends Poligono {
     private static final double EPSILON = 1e-9;
 
     /*
      * Construtor para o retangulo.
      * @param String com 4 pontos
      */
-    public Rectangulo(String pontosAsString) {
+    public Retangulo(String pontosAsString) {
         super("4 " + pontosAsString);
         check(super.vertices, pontosAsString);
     }
-
 
     /*
      *  Metodo complementar do construtor que verifica se o
@@ -27,7 +26,7 @@ public class Rectangulo extends Poligono {
      *  @param lista de pontos que representam os vertices
      *  @param String com os pontos
      */
-    protected static void check(List<Ponto> vertices, String pontosAsString) {
+    private static void check(List<Ponto> vertices, String pontosAsString) {
         String[] parts = pontosAsString.split(" ");
         if (parts.length != 8){
             System.out.println("Retangulo:vi");
@@ -44,10 +43,10 @@ public class Rectangulo extends Poligono {
         Ponto vetorCD = new Ponto(c, d);
         Ponto vetorDA = new Ponto(d, a);
 
-        double escalarAB_BC = (vetorAB.getR() * vetorBC.getR()) + (vetorAB.getTeta() * vetorBC.getTeta());
-        double escalarBC_CD = (vetorBC.getR() * vetorCD.getR()) + (vetorBC.getTeta() * vetorCD.getTeta());
-        double escalarCD_DA = (vetorCD.getR() * vetorDA.getR()) + (vetorCD.getTeta() * vetorDA.getTeta());
-        double escalarDA_AB = (vetorDA.getR() * vetorAB.getR()) + (vetorDA.getTeta() * vetorAB.getTeta());
+        double escalarAB_BC = (vetorAB.getX() * vetorBC.getX()) + (vetorAB.getY() * vetorBC.getY());
+        double escalarBC_CD = (vetorBC.getX() * vetorCD.getX()) + (vetorBC.getY() * vetorCD.getY());
+        double escalarCD_DA = (vetorCD.getX() * vetorDA.getX()) + (vetorCD.getY() * vetorDA.getY());
+        double escalarDA_AB = (vetorDA.getX() * vetorAB.getX()) + (vetorDA.getY() * vetorAB.getY());
 
         if (abs(escalarAB_BC) > EPSILON || abs(escalarBC_CD) > EPSILON
                 || abs(escalarCD_DA) > EPSILON || abs(escalarDA_AB) > EPSILON){
@@ -91,7 +90,7 @@ public class Rectangulo extends Poligono {
      *  @return true se interseta
      *  return falso cc
      */
-    /*public boolean segmento_intersect_retangulo(Segmento segmento) {
+    public boolean segmento_intersect_retangulo(Segmento segmento) {
 
         Ponto a = vertices.get(0);
         Ponto b = vertices.get(1);
@@ -120,5 +119,5 @@ public class Rectangulo extends Poligono {
             }
         }
         return false;
-    }*/
+    }
 }
