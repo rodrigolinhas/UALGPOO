@@ -1,0 +1,39 @@
+J: TRANSLAÇÕES
+
+Defina uma classe abstrata FiguraGeometrica com um método abstrato translacionar(double dx, double dy).
+PORQUE É A ULTIMA COISA QUE LE NO INPUT
+
+Aplicar este método nas classes (e validar se é possível aplicar)
+
+Polígonos:
+Translade cada vértice usando Ponto novoPonto = new Ponto(x + dx, y + dy).
+Valide o novo polígono (sem arestas cruzadas, pontos no primeiro quadrante).
+
+Círculos:
+Novo centro: (centro.x + dx, centro.y + dy).
+Valide se centro.x - raio >= 0 e centro.y - raio >= 0.
+
+Retângulos/Triângulos:
+Trate como polígonos, mas com validações específicas (ex: retângulo deve manter 4 vértices e ângulos retos).
+
+
+Poderia aplicar um lançamento de um erro se não for possível ?
+
+
+K: COLISOES
+
+Defina uma classe abstrata FiguraGeometrica com um método abstrato boolean colideCom(FiguraGeometrica outra);
+
+Círculo vs. Círculo: Verifique se a distância entre centros ≤ soma dos raios.
+Polígono vs. Polígono: Verifique interseção de arestas ou se um vértice está dentro do outro.
+Círculo vs. Polígono: Cheque se o centro está dentro do polígono ou se a distância mínima do centro às arestas ≤ raio.
+
+Preciso de uma queue para ler?
+
+Combinar cenas para confirmar se há colisao
+
+ex: F1 F2 F3 -> F1 compara com F2 e F3 e F2 compara com F3
+
+Se houver, especificar aonde "Colisao na posicao x" (para o exemplo anterior se é em 0 1 ou 2) E ACABA MESMO SE HOUVER OUTRAS
+
+Senão diz "Sem colisões"
