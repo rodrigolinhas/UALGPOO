@@ -1,39 +1,35 @@
 import static java.lang.Math.*;
 import java.util.List;
 
-/*
- * Representa um retângulo em duas dimensões e verifica interseções com segmentos de reta.
- * @author Paulo Rodrigues, a83929.
- * @version 2025/03/5.
- * @inv Os 4 pontos formam vetores de segmentos de reta, os produtos escalares dos vetores tem que ser igual a 0 o que significa
- * que fazem sempre um ângulo reto, os lados opostos têm que ser iguais e as diagonais também.
+/*  Classe Rectangulo representa um retangulo com o uso de 4 pontos
+ *  @author Rodrigo Linhas a83933
+ *  @version 21/03/2025
+ *  @inv Os 4 pontos devem ser distintos, pertencentes ao 1o quadrante
+ *  @inv e validos para a criação de um retangulo.
  */
+
 public class Rectangulo extends Poligono {
     private static final double EPSILON = 1e-9;
 
     /*
-     * Construtor para o segmento de reta.
-     * @param a -> Ponto no primeiro quadrante.
-     * @param b -> Outro ponto no primeiro quadrante.
-     * @param c -> Outro ponto no primeiro quadrante.
-     * @param d -> Outro ponto no primeiro quadrante.
+     * Construtor para o retangulo.
+     * @param String com 4 pontos
      */
     public Rectangulo(String pontosAsString) {
         super("4 " + pontosAsString);
         check(super.vertices, pontosAsString);
     }
 
+
     /*
-     * Verifica se os quatro pontos dados não violam a @inv e então podem formar um retângulo ou não.
-     * @param a -> Ponto no primeiro quadrante.
-     * @param b -> Outro ponto no primeiro quadrante.
-     * @param c -> Outro ponto no primeiro quadrante.
-     * @param d -> Outro ponto no primeiro quadrante.
+     *  Metodo complementar do construtor que verifica se o
+     *  retangulo criado é valido
+     *  @param lista de pontos que representam os vertices
+     *  @param String com os pontos
      */
     protected static void check(List<Ponto> vertices, String pontosAsString) {
         String[] parts = pontosAsString.split(" ");
-        if (parts.length != 8) //vertices.size() != 4 -> com isto nao funciona
-        {
+        if (parts.length != 8){
             System.out.println("Retangulo:vi");
             System.exit(0);
         }
@@ -48,10 +44,10 @@ public class Rectangulo extends Poligono {
         Ponto vetorCD = new Ponto(c, d);
         Ponto vetorDA = new Ponto(d, a);
 
-        double escalarAB_BC = (vetorAB.getR() * vetorBC.getR()) + (vetorAB.getAng() * vetorBC.getAng());
-        double escalarBC_CD = (vetorBC.getR() * vetorCD.getR()) + (vetorBC.getAng() * vetorCD.getAng());
-        double escalarCD_DA = (vetorCD.getR() * vetorDA.getR()) + (vetorCD.getAng() * vetorDA.getAng());
-        double escalarDA_AB = (vetorDA.getR() * vetorAB.getR()) + (vetorDA.getAng() * vetorAB.getAng());
+        double escalarAB_BC = (vetorAB.getR() * vetorBC.getR()) + (vetorAB.getTeta() * vetorBC.getTeta());
+        double escalarBC_CD = (vetorBC.getR() * vetorCD.getR()) + (vetorBC.getTeta() * vetorCD.getTeta());
+        double escalarCD_DA = (vetorCD.getR() * vetorDA.getR()) + (vetorCD.getTeta() * vetorDA.getTeta());
+        double escalarDA_AB = (vetorDA.getR() * vetorAB.getR()) + (vetorDA.getTeta() * vetorAB.getTeta());
 
         if (abs(escalarAB_BC) > EPSILON || abs(escalarBC_CD) > EPSILON
                 || abs(escalarCD_DA) > EPSILON || abs(escalarDA_AB) > EPSILON){
@@ -79,10 +75,9 @@ public class Rectangulo extends Poligono {
     }
 
     /*
-     * Dá a informação dos vertiçes do retângulo em coordenadas cartesianas inteiras no formato: [(x1,y1), (x2,y2), (x3,y3), (x4,y4)].
-     * @return "[" + a + "," + b + "," + c + "," + d + "]" -> String que contem o ponto na forma descrita a cima.
+     * Metodo que imprime o retangulo no terminal
+     * @return Retangulo: [(x1,y1), (x2,y2), (x3,y3), (x4,y4)]
      */
-    //Retangulo: [(x1,y1), (x2,y2), (x3,y3), (x4,y4)]
     @Override
     public String toString() {
         return "Retangulo: [" + vertices.get(0) + ", " + vertices.get(1) + ", "
@@ -90,12 +85,13 @@ public class Rectangulo extends Poligono {
     }
 
     /*
-     * Método que verifica efetivamente se um segmento de reta interseta um retângulo.
-     * @param segmento -> segmento a ser verificado se interseta ou nao o retângulo.
-     * @return um booleano, true caso haja interseção do segmento com o retângulo e false caso contrário.
+     *  Metodo responsavel para verificar se o retangulo e o segmento dado
+     *  de facto intersetam
+     *  @param Segmento
+     *  @return true se interseta
+     *  return falso cc
      */
-    public boolean segmento_intersect_retangulo(Segmento segmento)
-    {
+    /*public boolean segmento_intersect_retangulo(Segmento segmento) {
 
         Ponto a = vertices.get(0);
         Ponto b = vertices.get(1);
@@ -124,5 +120,5 @@ public class Rectangulo extends Poligono {
             }
         }
         return false;
-    }
+    }*/
 }

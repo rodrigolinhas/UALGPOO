@@ -1,6 +1,5 @@
 
-public class Triangulo extends Poligono
-{
+public class Triangulo extends Poligono {
 
     public Triangulo(String pontosAsString)
     {
