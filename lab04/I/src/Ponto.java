@@ -54,9 +54,8 @@ public class Ponto {
      * @param coordenada r
      * @param coordenada teta
      */
-    private void check(double r, double ang)
-    {
-        if (r > 10 || r < 0 || ang < 0 || ang > 90)
+    private void check(double r, double teta) {
+        if (r > 10 || r < 0 || teta < 0 || teta > 90)
         {
             System.out.print("iv");
             System.exit(0);

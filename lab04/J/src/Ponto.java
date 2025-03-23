@@ -4,10 +4,10 @@ import static java.lang.Math.*;
 /*
  * Classe responsável pela  criaçao de um Ponto
  * em coordenadas polares ou cartesianas
- * @author Rodrigo Linhas a83929
- * @version 21/03/2025.
- * @inv O ponto deve pertencer ao 1o quadrante
- * @inv (cartesianas) x>=0 e y>=0 || (polares) r>=0 e teta>=0
+ * @author      Rodrigo Linhas a83929
+ * @version     21/03/2025.
+ * @inv         O ponto deve pertencer ao 1o quadrante
+ *              (cartesianas) x>=0 e y>=0 || (polares) r>=0 e teta>=0
  */
 public class Ponto {
     private double r;

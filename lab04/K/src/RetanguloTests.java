@@ -10,7 +10,7 @@ public class RetanguloTests {
         assertEquals("Retangulo: [(4,1), (6,1), (6,2), (4,2)]", r.toString());
     }
 
-    //Teste para um retangulo valido
+    //Teste para um retangulo invalio
     @Test
     public void testInvalidPointCount() {
         assertThrows(IllegalArgumentException.class, () -> {
@@ -23,14 +23,6 @@ public class RetanguloTests {
     public void testNonRightAngles() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Retangulo("0 0 1 2 3 2 2 0");
-        });
-    }
-
-    // Teste para um retangulo invalido (lados opostos desiguais)
-    @Test
-    public void testUnequalOppositeSides() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Retangulo("0 0 0 3 4 3 4 0");
         });
     }
 

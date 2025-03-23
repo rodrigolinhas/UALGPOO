@@ -103,7 +103,7 @@ public class Retangulo extends Poligono {
      *  @return true se interseta
      *  return falso cc
      */
-    public boolean segmento_intersect_retangulo(Segmento segmento) {
+    /*public boolean segmento_intersect_retangulo(Segmento segmento) {
 
         Ponto a = vertices.get(0);
         Ponto b = vertices.get(1);
@@ -132,6 +132,6 @@ public class Retangulo extends Poligono {
             }
         }
         return false;
-    }
+    }*/
 
 }

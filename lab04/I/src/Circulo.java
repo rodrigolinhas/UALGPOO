@@ -1,12 +1,11 @@
 /*
  * Classe responsável pela criação do circulo.
- * @author Rodrigo Linhas a83929
- * @version 21/03/2025.
- * @inv O circúlo tem que estar completamente no primeiro quadrante
- * @inv raio > 0 && x >= raio && y >= raio
+ * @author      Rodrigo Linhas a83929
+ * @version     21/03/2025.
+ * @inv         O circúlo tem que estar completamente no primeiro quadrante
+ *              raio > 0 && x >= raio && y >= raio
  */
-public class Circulo extends FiguraGeometrica
-{
+public class Circulo extends FiguraGeometrica {
     private Ponto centro;
     private double raio;
     private static final double EPSILON = 1e-9;

@@ -4,9 +4,9 @@ import java.util.List;
 /*
  * Classe responsável pela  criaçao de um poligono de N vertices
  * e pela generalização do retangulo e do triangulo
- * @author Rodrigo Linhas a83929
- * @version 21/03/2025
- * @inv Deve-se formar um poligono valido com pontos no 1o quadrante
+ * @author      Rodrigo Linhas a83929
+ * @version     21/03/2025
+ * @inv         Deve-se formar um poligono valido com pontos no 1o quadrante
  */
 
 public class Poligono extends FiguraGeometrica {

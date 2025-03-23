@@ -1,5 +1,6 @@
 J: TRANSLAÇÕES
 
+
 Defina uma classe abstrata FiguraGeometrica com um método abstrato translacionar(double dx, double dy).
 PORQUE É A ULTIMA COISA QUE LE NO INPUT
 
@@ -7,7 +8,7 @@ Aplicar este método nas classes (e validar se é possível aplicar)
 
 Polígonos:
 Translade cada vértice usando Ponto novoPonto = new Ponto(x + dx, y + dy).
-Valide o novo polígono (sem arestas cruzadas, pontos no primeiro quadrante).
+Valide o novo polígono (sem arestas cruzadas, pontos no primei6ro quadrante).
 
 Círculos:
 Novo centro: (centro.x + dx, centro.y + dy).
@@ -16,11 +17,11 @@ Valide se centro.x - raio >= 0 e centro.y - raio >= 0.
 Retângulos/Triângulos:
 Trate como polígonos, mas com validações específicas (ex: retângulo deve manter 4 vértices e ângulos retos).
 
-
 Poderia aplicar um lançamento de um erro se não for possível ?
 
 
 K: COLISOES
+
 
 Defina uma classe abstrata FiguraGeometrica com um método abstrato boolean colideCom(FiguraGeometrica outra);
 

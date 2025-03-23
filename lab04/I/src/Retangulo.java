@@ -1,11 +1,11 @@
 import static java.lang.Math.*;
 import java.util.List;
 
-/*  Classe Rectangulo representa um retangulo com o uso de 4 pontos
- *  @author Rodrigo Linhas a83933
- *  @version 21/03/2025
- *  @inv Os 4 pontos devem ser distintos, pertencentes ao 1o quadrante
- *  @inv e validos para a criação de um retangulo.
+/*  Classe Retangulo representa um retangulo com o uso de 4 pontos
+ *  @author         Rodrigo Linhas a83933
+ *  @version        21/03/2025
+ *  @inv            Os 4 pontos devem ser distintos, pertencentes ao 1o quadrante
+ *                  e validos para a criação de um retangulo.
  */
 
 public class Retangulo extends Poligono {
@@ -90,7 +90,7 @@ public class Retangulo extends Poligono {
      *  @return true se interseta
      *  return falso cc
      */
-    public boolean segmento_intersect_retangulo(Segmento segmento) {
+    /*public boolean segmento_intersect_retangulo(Segmento segmento) {
 
         Ponto a = vertices.get(0);
         Ponto b = vertices.get(1);
@@ -119,5 +119,5 @@ public class Retangulo extends Poligono {
             }
         }
         return false;
-    }
+    }*/
 }
