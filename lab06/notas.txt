@@ -1,0 +1,7 @@
+criar a classe GameEngine
+lista de GameObjects (array???)
+
+add(GameObject go)
+destroy(GameObject go)
+
+2o paragrafo ver
